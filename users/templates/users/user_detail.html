@@ -1,0 +1,41 @@
+{% extends 'main/base.html' %}
+{% load media_filters %}
+{% block content %}
+
+<div class="user-card">
+    <div class="user-avatar">
+        <img src="{{ object.avatar|mediapath }}" alt="{{ object.email }} Avatar">
+    </div>
+    <div class="user-details">
+        <h2>{{ object.email }}</h2>
+        <p><strong>Имя:</strong> {{ object.first_name }}</p>
+        <p><strong>Фамилия:</strong> {{ object.last_name }}</p>
+        <p><strong>Страна:</strong> {{ object.country }}</p>
+        <p><strong>Телефон:</strong> {{ object.phone }}</p>
+        <p><strong>Статус:</strong> {% if object.is_active %}Активен{% else %}Заблокирован{% endif %}</p>
+    </div>
+    <div class="row">
+        <div class="text-center">
+            <a href="{% url 'users:profile' object.pk %}" class="btn btn-primary">Изменить</a>
+        </div>
+        <div class="text-center">
+            <form method="post" action="{% url 'users:toggle_status' object.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn {% if object.is_active %}btn-warning{% else %}btn-success{% endif %}">
+                    {% if object.is_active %}Заблокировать{% else %}Активировать{% endif %}
+                </button>
+            </form>
+        </div>
+        <div class="text-center">
+            <a href="{% url 'users:delete' object.pk %}" class="btn btn-danger">Удалить</a>
+        </div>
+    </div>
+</div>
+
+{% if message %}
+<div class="alert alert-info mt-3">
+    {{ message }}
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<div class="row">
+    <a href="{% url 'main:mailing_create' %}" class="btn btn-success mb-3">Создать рассылку</a>
+</div>
+<div class="row">
+    {% for object in object_list %}
+    <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+            <div class="card-body">
+                <h5 class="card-title">{{ object.subject }}</h5>
+                <p class="card-text">{{ object.send_frequency }}</p>
+                <p class="card-text">{{ object.send_time }}</p>
+                <p class="card-text">Владелец {{ object.mailing_owner }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <a href="{% url 'main:mailing_detail' object.pk %}" type="button"
+                       class="btn btn-sm btn-outline-secondary">Подробнее</a>
+                    <small class="text-muted">{{ object.mailing_status }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
