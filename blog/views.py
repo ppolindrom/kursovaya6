@@ -13,7 +13,6 @@ from main.models import Mailing
 
 class BlogCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """Контроллер блога для создания новой статьи"""
-
     model = Blog
     fields = ('title', 'description', 'preview', 'is_published')
     success_url = reverse_lazy('blog:list')
@@ -26,7 +25,6 @@ class BlogCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def form_valid(self, form):
         """Формируем slug-name для заголовка"""
-
         if form.is_valid():
             new_mat = form.save()
             new_mat.slug = slugify(new_mat.title)
@@ -40,7 +38,6 @@ class BlogCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 class BlogListView(ListView):
     """Контроллер блога для просмотра списка статей"""
-
     model = Blog
 
     def get_queryset(self, *args, **kwargs):
@@ -50,8 +47,6 @@ class BlogListView(ListView):
         queryset = queryset.filter(is_published=True)
 
         return queryset
-
-
 
 
 class BlogDetailView(DetailView):
@@ -79,7 +74,6 @@ class BlogUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         Переопределение url-адреса для перенаправления
         после успешного редактирования
         """
-
         return reverse('blog:view', args=[self.object.pk])
 
     def test_func(self):

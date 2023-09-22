@@ -10,6 +10,9 @@ python = "^3.11"
 pytils = "^0.4.1"
 django = "^4.2.5"
 decouple = "^0.0.7"
+psycopg2-binary = "^2.9.7"
+pillow = "^10.0.1"
+django-crontab = "^0.7.1"
 
 
 [build-system]

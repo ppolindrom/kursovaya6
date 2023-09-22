@@ -4,6 +4,7 @@ from blog.models import Blog
 
 
 def get_articles_cache():
+    """Создание кеширования"""
     if settings.CACHE_ENABLED:
         key = 'articles_list'
         articles_list = cache.get(key)

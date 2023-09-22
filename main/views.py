@@ -39,7 +39,6 @@ class MailingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             return True
         return False
 
-
     def get_success_url(self):
         return reverse('main:mailing_detail', args=[self.object.pk])
 
@@ -57,6 +56,7 @@ class MailingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def handle_no_permission(self):
         return redirect(reverse_lazy('main:mailing_list'))
+
 
 class MailingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Mailing
@@ -121,6 +121,7 @@ class MailingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def handle_no_permission(self):
         return redirect(reverse_lazy('main:mailing_list'))
 
+
 @login_required
 def mailing_logs(request, mailing_id):
     mailing = get_object_or_404(Mailing, pk=mailing_id)
@@ -135,6 +136,7 @@ def mailing_logs(request, mailing_id):
         return render(request, 'main/mailing_logs.html', context)
     else:
         return redirect("mail:mailing_list")
+
 
 class ClientListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Client
