@@ -1,6 +1,7 @@
 from random import sample
 
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, ListView, DetailView, UpdateView, DeleteView
 from pytils.translit import slugify
@@ -10,7 +11,7 @@ from blog.services import get_articles_cache
 from main.models import Mailing
 
 
-class BlogCreateView(CreateView):
+class BlogCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     """Контроллер блога для создания новой статьи"""
 
     model = Blog
@@ -19,7 +20,7 @@ class BlogCreateView(CreateView):
 
     def test_func(self):
         user = self.request.user
-        if user.groups.filter(name='content_manager').exists():
+        if user.groups.filter(name='content_manager').exists() or user.is_superuser:
             return True
         return False
 
@@ -32,6 +33,9 @@ class BlogCreateView(CreateView):
             new_mat.save()
 
         return super().form_valid(form)
+
+    def handle_no_permission(self):
+        return redirect(reverse_lazy('blog:list'))
 
 
 class BlogListView(ListView):
@@ -48,6 +52,8 @@ class BlogListView(ListView):
         return queryset
 
 
+
+
 class BlogDetailView(DetailView):
     model = Blog
 
@@ -62,7 +68,7 @@ class BlogDetailView(DetailView):
         return self.object
 
 
-class BlogUpdateView(UpdateView):
+class BlogUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     """Контроллер блога для редактирования статьи"""
 
     model = Blog
@@ -76,12 +82,30 @@ class BlogUpdateView(UpdateView):
 
         return reverse('blog:view', args=[self.object.pk])
 
+    def test_func(self):
+        user = self.request.user
+        if user.groups.filter(name='content_manager').exists() or user.is_superuser:
+            return True
+        return False
 
-class BlogDelete(DeleteView):
+    def handle_no_permission(self):
+        return redirect(reverse_lazy('blog:list'))
+
+
+class BlogDelete(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """Контроллер блога для удаления статьи"""
 
     model = Blog
     success_url = reverse_lazy('blog:list')
+
+    def test_func(self):
+        user = self.request.user
+        if user.groups.filter(name='content_manager').exists() or user.is_superuser:
+            return True
+        return False
+
+    def handle_no_permission(self):
+        return redirect(reverse_lazy('blog:list'))
 
 
 def HomeIndex(request):

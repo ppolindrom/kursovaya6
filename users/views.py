@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.auth.views import LoginView as BaseLoginView
 from django.contrib.auth.views import LogoutView as BaseLogoutView
-from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import View
@@ -15,11 +14,6 @@ from users.models import User
 from django.contrib import messages
 from django.views.generic import ListView
 from users.utils import send_mail
-
-#
-# import logging
-#
-# logger = logging.getLogger(__name__)
 
 
 class LoginView(BaseLoginView):
@@ -45,7 +39,7 @@ class RegisterView(CreateView):
         user.save()
         to = user.email
         subject = 'Регистрация в нашем проекте MailingAgent!'
-        message = f'Для регистрации перейдите по ссылке {confirm_url}!'
+        message = f'Для регистрации перейдите по ссылке {confirm_url}'
         send_mail(
             theme=subject,
             message=message,

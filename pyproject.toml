@@ -8,6 +8,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.11"
 pytils = "^0.4.1"
+django = "^4.2.5"
+decouple = "^0.0.7"
 
 
 [build-system]
