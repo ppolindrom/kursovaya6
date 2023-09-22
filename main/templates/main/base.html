@@ -28,6 +28,7 @@
         <a class="p-2 btn btn-outline-primary" href="{% url 'main:mailing_list' %}">Рассылки</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'main:client_list' %}">Клиенты</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'users:detail' user.pk %}">Профиль</a>
+        <a class="p-2 btn btn-outline-primary" href="{% url 'blog:list' %}">Блог</a>
         <a class="p-2 btn btn-outline-primary" href="{% url 'users:logout' %}">Выход</a>
         {% else %}
         <a class="p-2 btn btn-outline-primary" href="{% url 'users:login' %}">Войти</a>
@@ -58,7 +59,7 @@
 <footer class="text-muted">
     <div class="container">
         <p class="float-right">
-            <a href="{% url 'main:mailing_list' %}">Главная</a>
+            <a href="{% url 'blog:home_index' %}">Главная</a>
         </p>
         <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
         <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting

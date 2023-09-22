@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     'main',
     'users',
+    'blog',
 ]
 
 MIDDLEWARE = [
@@ -145,16 +146,17 @@ LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/users/login/'
 
 
-# CACHE_ENABLED = config('CACHE_ENABLED') == '1'
-#
-# if CACHE_ENABLED:
-#     CACHES = {
-#         'default': {
-#             'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-#             'LOCATION': config('REDIS_HOST')
-#         }
-#     }
-#
+CACHE_ENABLED = config('CACHE_ENABLED') == '1'
+
+if CACHE_ENABLED:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+            'LOCATION': 'redis://127.0.0.1:6379'
+        }
+    }
+
+
 CRONJOBS = [
     ('*/1 * * * *', 'main.send_mailing.send_mails')
 ]

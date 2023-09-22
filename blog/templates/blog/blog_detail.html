@@ -1,0 +1,13 @@
+{% extends 'main/base.html' %}
+{% block content %}
+{% include 'blog/includes/inc_blog_detail.html' %}
+{% load media_filters %}
+<div class="row mx-2">
+    <div class="col-md-4 mb-3">
+        <img src="{{ blog.preview|mediapath }}" class="img-fluid" alt="{{ blog.title }}">>
+    </div>
+    <div class="col-md-8 mb-3">
+        <p>{{ blog.description }}</p>
+    </div>
+</div><br><br>
+{% endblock %}
